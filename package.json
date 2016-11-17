@@ -1,0 +1,23 @@
+{
+  "name": "issuu-vr",
+  "version": "1.0.0",
+  "description": "The issuu VR experience hack.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckastbjerg/issuu-vr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ckastbjerg/issuu-vr/issues"
+  },
+  "homepage": "https://github.com/ckastbjerg/issuu-vr#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "request": "^2.78.0"
+  }
+}
