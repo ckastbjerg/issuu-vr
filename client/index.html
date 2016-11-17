@@ -11,14 +11,11 @@
     <a-scene>
         <a-entity position="0 .6 0">
             <a-camera>
-                <a-entity
-                    raycaster="far: 30; objects: .intersectable"
-                    cursor
+                <a-entity cursor="fuse: false"
+                    position="0 0 -0.75"
                     geometry="primitive: ring; radiusOuter: 0.015;
                         radiusInner: 0.01; segmentsTheta: 32"
-                    material="color: #283644; shader: flat"
-                    position="0 0 -0.75">
-                </a-entity>
+                    material="color: black; shader: flat">
             </a-camera>
         </a-entity>
         <a-sky color="#353535"></a-sky>
