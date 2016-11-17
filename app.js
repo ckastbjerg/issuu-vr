@@ -23,10 +23,6 @@ function getDocs(id) {
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'client')));
 
-app.get('/categories', function(req, res) {
-    res.send(categories);
-});
-
 app.get('/', function(req, res) {
     res.render(fs.readFileSync('./index.html', 'utf8'));
 });
