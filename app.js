@@ -8,7 +8,7 @@ const http = require('http').Server(app);
 const request = require('request');
 
 function getDocs(id) {
-    const req = `https://issuu.com/call/stream/web/reader_category/initial?safe_only=true&readerCategoryIds=${id}&pageSize=50&seed=3715&format=json`;
+    const req = `https://issuu.com/call/stream/web/reader_category/initial?safe_only=true&readerCategoryIds=${id}&pageSize=13&seed=3715&format=json`;
     return new Promise(function(resolve, reject) {
         request(req, function(error, response, body) {
             if (!error && response.statusCode == 200) {

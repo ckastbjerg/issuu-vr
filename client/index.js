@@ -9,20 +9,19 @@ function appendBanner(url) {
     scene.appendChild(obj);
 }
 
-function appendCover(url) {
+function appendCover(url, width, index) {
     var obj = document.createElement('a-curvedimage');
     obj.setAttribute('src', url);
     obj.setAttribute('radius', `15`);
-    obj.setAttribute('theta-length', `30`);
-    obj.setAttribute('rotation', `0 ${30 * i} 0`);
+    obj.setAttribute('theta-length', width);
+    obj.setAttribute('rotation', `0 ${width * index} 0`);
     obj.setAttribute('height', `10`);
-    scene.appendChild(obj);
+    categoriesContainer.appendChild(obj);
 }
 
 function appendTitle(id, width, index) {
     const length = width - 3;
 
-    var obj = document.createElement('a-entity');
     var obj = document.createElement('a-curvedimage');
     var animation1 = document.createElement('a-animation');
     var animation2 = document.createElement('a-animation');
@@ -42,17 +41,45 @@ function appendTitle(id, width, index) {
     obj.setAttribute('opacity', '.75');
     obj.setAttribute('crossorigin', 'anonymous'); // doesn't work :/
     // obj.setAttribute('cursor', 'fuse: true;');
-    obj.addEventListener('click', function () {
-        console.log(`assets/${id}.png`)
-        obj.setAttribute('opacity','1');
-        obj.emit('do_scale');
-    });
+    obj.addEventListener('click', e => { showSubcategories(id) });
     obj.appendChild(animation1);
     obj.appendChild(animation2);
-    scene.appendChild(obj);
+    categoriesContainer.appendChild(obj);
+}
+
+function showSubcategories(id) {
+    categoriesContainer.querySelectorAll('a-curvedimage').forEach(element => {
+        element.parentNode.removeChild(element);
+    });
+    const cats = categories.find(c => c.id === id );
+    if (cats) {
+        appendCategories(cats.subCategories);
+    } else {
+        fetch(`/category/${id}`)
+        .then(res => res.json())
+        .then(docs => {
+            const urls = docs.map(doc => {
+                const id = `${doc.revisionId}-${doc.publicationId}`;
+                return `https://image.isu.pub/${id}/jpg/page_1_thumb_large.jpg`;
+            });
+
+            const width = 360 / urls.length;
+            urls.forEach((url, index) => {
+                appendCover(url, width, index);
+            });
+        });
+    }
+}
+
+function appendCategories(categories) {
+    const width = 360 / categories.length;
+    categories.forEach((category, index) => {
+        appendTitle(category.id, width, index);
+    });
 }
 
 var scene = document.querySelector('a-scene');
+var categoriesContainer = document.querySelector('#categories');
 if (scene.hasLoaded) {
     run();
 } else {
@@ -60,9 +87,5 @@ if (scene.hasLoaded) {
 }
 function run () {
     appendBanner(categories[0].image);
-
-    const width = 360 / categories.length;
-    categories.forEach((category, index) => {
-        appendTitle(category.id, width, index);
-    });
+    appendCategories(categories);
 }
